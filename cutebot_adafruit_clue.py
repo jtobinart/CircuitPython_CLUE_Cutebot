@@ -1,5 +1,5 @@
-# my_adafruit_clue.py
-# Last updated: July 23, 2020
+# cutebot_adafruit_clue.py
+# Author of changes: James Tobin
 
 ######################################################
 #   my_adafrut_clue.py Version Notes
@@ -7,7 +7,7 @@
 '''
 This version of Adafruit's adafruit_clue.py file only has two modification to allow it to function
 with Elecfreaks Smart Cutebot. First, the touch features were disabled. Second, the i2c settings were
-changed using https://forums.adafruit.com/viewtopic.php?f=60&t=165077 suggestion:
+changed using https://forums.adafruit.com/viewtopic.php?f=60&t=165077 suggestion by danhalbert:
 
 self._i2c = board.I2C() 
 
@@ -15,7 +15,7 @@ was changed to
 
 self._i2c = busio.I2C(board.SCL, board.SDA, frequency=100000)
 
-This was done because Elecfreaks Smart Cutebot runs at 100KHz and there is currently no easier
+This was done because Elecfreaks micro:bit Smart Cutebot runs at 100KHz and there is currently no easier
 way to change the frequency and retain usage of this file.
 
 '''
