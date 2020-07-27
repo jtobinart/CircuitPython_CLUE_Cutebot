@@ -442,6 +442,9 @@ def getIR():
         pass
     return received_code
 
-motorsOff()
-lightsOff()
+try:    # We will try and stop the motors and turn off the lights when the program loads.
+    motorsOff()
+    lightsOff()
+except: # If we can't stop them, Clue will let us know.
+    print('Could not contact cutebot!')
 print('======== Cutebot Loaded ========')
