@@ -12,4 +12,4 @@ The Adafruit BlueFruit Connect App's Controller example also depends on:
 * [Adafruit_bluefruit_connect](https://github.com/adafruit/Adafruit_CircuitPython_BluefruitConnect)
 
 ## License
-The code of the repository is made available under the terms of the MIT license. See license.txt for more information.
+The code of the repository is made available under the terms of the MIT license. See license.md for more information.
