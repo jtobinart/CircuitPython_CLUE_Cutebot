@@ -2,9 +2,11 @@
 # Author of changes: James Tobin
 
 ######################################################
-#   my_adafrut_clue.py Version Notes
+#   cutebot_adafrut_clue.py Version Notes
 ######################################################
 '''
+Version 1.0
+===========
 This version of Adafruit's adafruit_clue.py file only has two modification to allow it to function
 with Elecfreaks Smart Cutebot. First, the touch features were disabled. Second, the i2c settings were
 changed using https://forums.adafruit.com/viewtopic.php?f=60&t=165077 suggestion by danhalbert:
