@@ -1,5 +1,5 @@
 # Clue-Cutebot
-This is a higher level library to allow Adafruit's [Clue](https://www.adafruit.com/product/4500) and ElecFreak's micro:bit smart [Cutebot](https://www.elecfreaks.com/micro-bit-smart-cutebot.html) to cummunicate while maintaing all the functionality of the Clue. I am a teacher of young learns and as such the code was perposefully left simple so I can use it with them. There is also a comment on nearly every line to help explain to my students what each line is doing.
+This is a higher level library to allow Adafruit's [Clue](https://www.adafruit.com/product/4500) and ElecFreak's micro:bit Smart [Cutebot](https://www.elecfreaks.com/micro-bit-smart-cutebot.html) to cummunicate while maintaing all the functionality of the Clue. I am a teacher of young learns and as such the code was perposefully left simple so I can use it with them. There is also a comment on nearly every line to help explain to my students what each line is doing.
 
 ## Dependencies
 This library depends on:
