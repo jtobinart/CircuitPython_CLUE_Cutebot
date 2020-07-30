@@ -1,4 +1,5 @@
 #Cutebot_Line_Following.py
+#Author: James Tobin
 
 import time
 import cutebot
