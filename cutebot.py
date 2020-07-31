@@ -74,8 +74,8 @@ import neopixel
 from digitalio import DigitalInOut, Direction, Pull
 from analogio import AnalogIn
 from cutebot_adafruit_clue import clue
-import lib/adafruit_irremote
-import lib/adafruit_hcsr04
+import adafruit_irremote
+import adafruit_hcsr04
 
 
 ######################################################
@@ -89,6 +89,8 @@ P2_sensor = AnalogIn(board.P2)      #Set P2 sensor pin
 
 sonar = adafruit_hcsr04.HCSR04(trigger_pin=board.D8, echo_pin=board.D12)    #Set sonar sensor pins
 
+#IRpin = pulseio.PulseIn(board.D16, maxlen=120, idle_state=True)       #Set Infrared (IR) pin
+
 leftLineTracking = DigitalInOut(board.D13)      #Set left line tracking pin
 leftLineTracking.direction = Direction.INPUT
 leftLineTracking.pull = None
@@ -96,8 +98,6 @@ leftLineTracking.pull = None
 rightLineTracking = DigitalInOut(board.D14)     #Set right line tracking pin
 rightLineTracking.direction = Direction.INPUT
 rightLineTracking.pull = None
-
-pulsein = pulseio.PulseIn(board.D16, maxlen=120, idle_state=True)       #Set Infrared (IR) pin
 
 buzzer = pulseio.PWMOut(board.P0, variable_frequency=True)      #Set buzzer pin
 
@@ -117,7 +117,6 @@ cutebot_address = 0x10
 #   Global Variables
 ######################################################
 servoMaxAngleInDegrees = 180    #Maximum degrees of freedom allowed by your servo (change to match your servo)
-decoder = adafruit_irremote.GenericDecode()     #Set infrared (IR) decoder to Adafruit's generic decoder
 i2c_rest = 0.1
 
 ######################################################
@@ -407,16 +406,20 @@ def getSonar():
     '''
     Output: the distance in centimeters between the cutebot and an object in front of it
     '''
+    timeoutCount = 0
     data = []
     while len(data) < 3:
         try:
             data.append(sonar.distance)
         except RuntimeError:
-            #print("ERROR: Sonar Runtime")
-            pass
+            #print("*** SONAR ERROR ***")
+            timeoutCount += 1
+            if timeoutCount > 8:
+                print("*** ERROR: CHECK SONAR ***")
+                return 0.00
         time.sleep(0.025)
     distance = sum(data) - min(data) - max(data)
-    return round(distance, 2)
+    return distance
 
 def getTracking():
     '''
@@ -427,24 +430,9 @@ def getTracking():
     '''
     return not leftLineTracking.value, not rightLineTracking.value
 
-def getIR():
-    pulses = decoder.read_pulses(pulsein)
-    try:
-        # Attempt to convert received pulses into numbers
-        received_code = decoder.decode_bits(pulses, debug=False)
-    except adafruit_irremote.IRNECRepeatException:
-        # We got an unusual short code, probably a 'repeat' signal
-        # print("NEC repeat!")
-        pass
-    except adafruit_irremote.IRDecodeException as e:
-        # Something got distorted or maybe its not an NEC-type remote?
-        # print("Failed to decode: ", e.args)
-        pass
-    return received_code
-
-try:    # We will try and stop the motors and turn off the lights when the program loads.
+try:
     motorsOff()
     lightsOff()
-except: # If we can't stop them, Clue will let us know.
-    print('Could not contact cutebot!')
-print('======== Cutebot Loaded ========')
+except:
+    print("ERROR: CHECK CUTEBOT CONNECTION")
+#print('======== Cutebot Loaded ========')
