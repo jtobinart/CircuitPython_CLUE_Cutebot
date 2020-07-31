@@ -5,6 +5,8 @@ This is a higher level library to allow Adafruit's [Clue](https://www.adafruit.c
 This library depends on:
 * [Adafruit CircuitPython](https://github.com/adafruit/circuitpython)
 * [Adafruit_hcsr04](https://github.com/adafruit/Adafruit_CircuitPython_HCSR04)
+
+The IR remote example also depends on:
 * [Adafruit_irremote](https://github.com/adafruit/Adafruit_CircuitPython_IRRemote)
 
 The Adafruit BlueFruit Connect App's Controller example also depends on:
