@@ -1,35 +1,12 @@
-#Cutebot_Line_Following.py
+#Cutebot_line_following__better__.py
 #Version 1.0
 #Author(s): James Tobin
-
-'''
-######################################################
-#   MIT License
-######################################################
-
-Copyright (c) 2020 James Tobin
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of 
-this software and associated documentation files (the "Software"), to deal in the 
-Software without restriction, including without limitation the rights to use, copy, 
-modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, 
-and to permit persons to whom the Software is furnished to do so, subject to the 
-following conditions:
-
-The above copyright notice and this permission notice shall be included in all 
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, 
-INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A 
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF 
-CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE 
-OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 ######################################################
 #   Version Notes
 ######################################################
+'''
 A countdown clock and a more advanced line following code was implemented in this version.
 '''
 
@@ -37,7 +14,6 @@ A countdown clock and a more advanced line following code was implemented in thi
 ######################################################
 #   Imports
 ######################################################
-import time
 import cutebot
 from cutebot import clue
 
@@ -76,9 +52,7 @@ print("Looking for line!")
 
 while True:
     if clue.button_b:       # Ask clue if the B button was pressed.
-        '''
-        If it was pressed do these things
-        '''
+        # If it was pressed do these things
         cutebot.motorsOff()     # Stop the motors
         break                   # Stop the while loop
 
@@ -97,9 +71,7 @@ while True:
         last_turn_was_left = True                       # Remember that we turned left
         print("Left")
     elif leftSide == False and rightSide == False:  # Spin back if both are False
-        '''
-        If you Cutebot is lost, it will spin in the direction it last saw the color black.
-        '''
+        # If you Cutebot is lost, it will spin in the direction it last saw the color black.
         if last_turn_was_left == True:              # Did Cutebot last turn left?
             cutebot.motors(-speed,speed)                # Set motor speed
             print("Spin Left")
@@ -107,6 +79,6 @@ while True:
             cutebot.motors(speed,-speed)                # Set motor speed
             print("Spin Right")
     else:
-        print("ERROR")
+        print("***ERROR: UNKNOWN TRACKING STATE***")
 
 print("End")
