@@ -1,5 +1,5 @@
 # CLUE-Cutebot-CircuitPython
-This is a higher level library to allow Adafruit's [CLUE](https://www.adafruit.com/product/4500) and ElecFreak's micro:bit Smart [Cutebot](https://www.elecfreaks.com/micro-bit-smart-cutebot.html) to communicate while maintaining all the functionality of the CLUE, except for touch features. I am a teacher of young learns and as such the code was purposefully left simple so I can use it with them. There is also a comment on nearly every line to help explain to my students what each line is doing.
+This is a higher-level library to allow Adafruit's [CLUE](https://www.adafruit.com/product/4500) and ElecFreak's micro:bit Smart [Cutebot](https://www.elecfreaks.com/micro-bit-smart-cutebot.html) to communicate while maintaining all the functionality of the CLUE, except for touch features. I am a teacher of young learns and as such the code was purposefully left simple so I can use it with them. There is also a comment on nearly every line to help explain to my students what each line is doing.
 
 ## Dependencies
 This library depends on:
@@ -14,7 +14,7 @@ The Adafruit BlueFruit Connect App's Controller example also depends on:
 * [Adafruit_bluefruit_connect](https://github.com/adafruit/Adafruit_CircuitPython_BluefruitConnect)
 
 ## Instalations
-Follow Adafruit's [CLUE Overview](https://learn.adafruit.com/adafruit-clue) instructions under _CircuitPython on CLUE_. During the installation process you will download latest _library bundle_ and transfer several libraries to the CLUE. Transfer the dependancies listed above as well to the _lib folder_.
+Follow Adafruit's [CLUE Overview](https://learn.adafruit.com/adafruit-clue) instructions under _CircuitPython on CLUE_. During the installation process, you will download the latest _library bundle_ and transfer several libraries to the CLUE. Transfer the dependencies listed above as well to the _lib folder_.
 Download this repository and copy _cutebot.py_ and _cutebot_adafruit_clue.py_ over to your drive CIRCUITPY. 
 
 ## Usage
