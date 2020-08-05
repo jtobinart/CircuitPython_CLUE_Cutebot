@@ -22,10 +22,10 @@ from cutebot import clue
 #   Functions
 ######################################################
 def countdown(duration):
-    duration = max(duration, 1.5)   # Make sure the time is at least 1.5 seconds long
-    duration/=6     # Divide the time equally. There are 6 because the last note plays twice as long
+    duration = max(duration, 1.5)       # Make sure the time is at least 1.5 seconds long
+    duration/=6                         # Divide the time equally. There are 6 because the last note plays twice as long
     print('5')
-    clue.play_tone(1568,duration)   # G6 music note
+    clue.play_tone(1568,duration)       # G6 music note
     print('4')
     clue.play_tone(1396.9,duration)     # F6 music note
     print('3')
@@ -40,7 +40,7 @@ def countdown(duration):
 #   Variables
 ######################################################
 last_turn_was_left = True   # Cutebot can have trouble finding the line quickly. This variable helps it remember were it saw it last.
-speed = 20               # Set the speed of the robot
+speed = 20                  # Set the speed of the robot
 
 
 ######################################################
