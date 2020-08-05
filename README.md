@@ -23,7 +23,7 @@ You can create a new main.py file and use:
 import cutebot
 from cutebot import clue
 ```
-to access the CLUE and Cutebot or you can use one of the examples programs provided in the repository. Use the IR remote example to easily learn about IR signals and control your Cutebot in a snap. Download Adafruit's BlueFruit Connect app and control your Cutbot over Bluetooth. These examples and more are located in the _Examples_ folder.
+to access the CLUE and Cutebot or you can use one of the examples programs provided in the repository. Use the IR remote example to easily learn about IR signals and control your Cutebot in a snap. Download Adafruit's BlueFruit Connect app and control your Cutbot over Bluetooth. These examples and more are located in the _examples_ folder.
 
 ## License
 The code of the repository is made available under the terms of the MIT license. See license.md for more information.
