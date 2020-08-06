@@ -307,8 +307,8 @@ def motors(leftSpeed, rightSpeed):      # set motors speeds
         pass
     while True:
         try:
-            leftSpeed = min(max(leftSpeed, -100),100)   # let's make sure the value is between -100 and 100
-            rightSpeed = min(max(rightSpeed, -100),100) # let's make sure the value is between -100 and 100
+            leftSpeed = int(min(max(leftSpeed, -100),100))   # let's make sure the value is between -100 and 100
+            rightSpeed = int(min(max(rightSpeed, -100),100)) # let's make sure the value is between -100 and 100
             data = [0,0,0,0]        # cuteBot expects four bytes of data and the last one is always zero when sending motor data
             if leftSpeed == 0 and rightSpeed == 0:
                 data[0] = 0x01          # left (0x01) or right (0x02) motor
