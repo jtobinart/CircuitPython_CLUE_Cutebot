@@ -25,6 +25,8 @@ from cutebot import clue
 ######################################################
 pulsein = pulseio.PulseIn(board.D16, maxlen=120, idle_state=True)       #Set Infrared (IR) pin
 decoder = adafruit_irremote.GenericDecode()                             #Set infrared (IR) decoder to Adafruit's generic decoder
+maxSpeed = 30
+
 '''
 Set each of the buttons codes to the codes for your IR remote.
 To find codes, run the program with all the buttons set to None.
@@ -52,34 +54,36 @@ button_1 = [None]                        # Set the button 1 code
 ######################################################
 print("Waiting for remote signal...")
 while True:
+    code = None     # Set the variable to an initial value so it does not cause an error
+
     #This first part if from the adafruit_irremote example.
     pulses = decoder.read_pulses(pulsein)                   # Stop, wait and listen for an IR signal.
     #print("Heard", len(pulses), "Pulses:", pulses)
     try:
         code = decoder.decode_bits(pulses)                  # Read the IR signal code
         #print("Decoded:", code)
-    except adafruit_irremote.IRNECRepeatException:          # unusual short code!
+    except adafruit_irremote.IRNECRepeatException:          # Incomplete message
         print("NEC repeat!")
-    except adafruit_irremote.IRDecodeException as e:        # failed to decode
+    except adafruit_irremote.IRDecodeException as e:        # Failed to decode message
         print("Failed to decode: ", e.args)
     
 
     if code == button_UP:                       # Check to see if our code matches.
         print("Button UP")
-        cutebot.motors(50,50)                                                           
+        cutebot.motors(maxSpeed,maxSpeed)                                                           
         cutebot.headlights(3,[255,255,255])
     elif code == button_DOWN:                   # Check to see if our code matches.
         print("Button DOWN")
-        cutebot.motors(-50,-50)
+        cutebot.motors(-maxSpeed,-maxSpeed)
         cutebot.headlights(0,[0,0,0])
     elif code == button_LEFT:                   # Check to see if our code matches.
         print("Button LEFT")
-        cutebot.motors(20,50)
+        cutebot.motors(int(maxSpeed/2),maxSpeed)
         cutebot.headlights(1,[150,50,0])
         cutebot.headlights(2,[0,0,0])
     elif code == button_RIGHT:                  # Check to see if our code matches.
         print("Button RIGHT")
-        cutebot.motors(50,20)
+        cutebot.motors(maxSpeed,int(maxSpeed/2))
         cutebot.headlights(1,[0,0,0])
         cutebot.headlights(2,[150,100,0])
     elif code == button_STOP:                   # Check to see if our code matches.
@@ -88,7 +92,7 @@ while True:
         cutebot.lightsOff()
     elif code == button_1:                      # Check to see if our code matches.
         print("Button 1")
-        clue.play_tone(1568, 0.5)
+        clue.play_tone(1568, 1)
     else:                                       # It does not match!
         print("I don't know: ", code)
 

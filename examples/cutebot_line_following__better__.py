@@ -40,7 +40,7 @@ def countdown(duration):
 #   Variables
 ######################################################
 last_turn_was_left = True   # Cutebot can have trouble finding the line quickly. This variable helps it remember were it saw it last.
-speed = 20                  # Set the speed of the robot
+maxSpeed = 20                  # Set the speed of the robot
 
 
 ######################################################
@@ -60,23 +60,23 @@ while True:
     print(leftSide, rightSide)
 
     if leftSide == True and rightSide == True:      # Go forwards when both are True
-        cutebot.motors(speed,speed)                     # Set motor speed
+        cutebot.motors(maxSpeed,maxSpeed)                     # Set motor speed
         print("Forward")
     elif leftSide == False and rightSide == True:   # Go right if rightSide is True
-        cutebot.motors(speed,0)                         # Set motor speed
+        cutebot.motors(maxSpeed,0)                         # Set motor speed
         last_turn_was_left = False                      # Remember that we did not turn left
         print("Right")
     elif leftSide == True and rightSide == False:   # Go left if leftSide is True
-        cutebot.motors(0,speed)                         # Set motor speed
+        cutebot.motors(0,maxSpeed)                         # Set motor speed
         last_turn_was_left = True                       # Remember that we turned left
         print("Left")
     elif leftSide == False and rightSide == False:  # Spin back if both are False
         # If you Cutebot is lost, it will spin in the direction it last saw the color black.
         if last_turn_was_left == True:              # Did Cutebot last turn left?
-            cutebot.motors(-speed,speed)                # Set motor speed
+            cutebot.motors(-maxSpeed,maxSpeed)                # Set motor speed
             print("Spin Left")
         else:                                       # If Cutebot didn't last turn left then go right.
-            cutebot.motors(speed,-speed)                # Set motor speed
+            cutebot.motors(maxSpeed,-maxSpeed)                # Set motor speed
             print("Spin Right")
     else:
         print("***ERROR: UNKNOWN TRACKING STATE***")

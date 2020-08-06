@@ -16,6 +16,9 @@ from adafruit_bluefruit_connect.packet import Packet
 import cutebot
 from cutebot import clue
 
+# Used to create random neopixel colors
+import random
+
 # Only the packet classes that are imported will be known to Packet.
 from adafruit_bluefruit_connect.button_packet import ButtonPacket
 
@@ -27,6 +30,8 @@ ble = BLERadio()                                            # Turn on Bluetooth
 uart_server = UARTService()                                 # Turn on UART
 advertisement = ProvideServicesAdvertisement(uart_server)   # Set up notice for other devices that Clue has a Bluetooth UART connection
 
+maxSpeed = 30
+
 clue.sea_level_pressure = 1020                              # Set sea level pressure for Clue's Altitude sensor.
 
 ######################################################
@@ -34,9 +39,12 @@ clue.sea_level_pressure = 1020                              # Set sea level pres
 ######################################################
 while True:
     print("WAITING for BlueFruit device...")
+    
     # Advertise when not connected.
     ble.start_advertising(advertisement)                # Tell other devices that Clue has a Bluetooth UART connection.
     while not ble.connected:                            # Check to see if another device has connected with the Clue via Bluetooth.
+        if clue.button_a:
+            break
         pass                                            # Do nothing this loop.
 
     # Connected
@@ -45,6 +53,9 @@ while True:
 
     # Loop and read packets
     while ble.connected:                                # Check to see if we are still connected.
+
+        if clue.button_a:
+            break
 
         # Keeping trying until a good packet is received
         try:
@@ -56,31 +67,34 @@ while True:
         if isinstance(packet, ButtonPacket) and packet.pressed:     # Check to see if new messages have anything we can use.
             if packet.button == ButtonPacket.UP:                    # Check to see if the useful message says the up button was pressed.
                 print("Button UP")
-                cutebot.motors(50,50)                                                           
+                cutebot.motors(maxSpeed,maxSpeed)                                                           
                 cutebot.headlights(3,[255,255,255])
-            if packet.button == ButtonPacket.DOWN:                  # Check to see if the useful message says the down button was pressed.
+            elif packet.button == ButtonPacket.DOWN:                  # Check to see if the useful message says the down button was pressed.
                 print("Button DOWN")
-                cutebot.motors(-50,-50)
+                cutebot.motors(-maxSpeed,-maxSpeed)
                 cutebot.headlights(0,[0,0,0])
-            if packet.button == ButtonPacket.LEFT:                  # Check to see if the useful message says the left button was pressed.
+            elif packet.button == ButtonPacket.LEFT:                  # Check to see if the useful message says the left button was pressed.
                 print("Button LEFT")
-                cutebot.motors(20,50)
+                cutebot.motors(int(maxSpeed/2),maxSpeed)
                 cutebot.headlights(1,[150,50,0])
                 cutebot.headlights(2,[0,0,0])
-            if packet.button == ButtonPacket.RIGHT:                 # Check to see if the useful message says the right button was pressed.
+            elif packet.button == ButtonPacket.RIGHT:                 # Check to see if the useful message says the right button was pressed.
                 print("Button RIGHT")
-                cutebot.motors(50,20)
+                cutebot.motors(maxSpeed,int(maxSpeed/2))
                 cutebot.headlights(1,[0,0,0])
                 cutebot.headlights(2,[200,100,0])
-            if packet.button == ButtonPacket.BUTTON_1:              # Check to see if the useful message says button 1 was pressed.
+            elif packet.button == ButtonPacket.BUTTON_1:              # Check to see if the useful message says button 1 was pressed.
                 print("Button 1: Full stop!")
                 cutebot.motorsOff()
                 cutebot.lightsOff()
-            if packet.button == ButtonPacket.BUTTON_2:              # Check to see if the useful message says button 2 was pressed.
-                print("Button 2: Not Defined")
-            if packet.button == ButtonPacket.BUTTON_3:              # Check to see if the useful message says button 3 was pressed.
-                print("Button 3: Cutebot Sensors")
-                #print(cutebot.getSonar())
+            elif packet.button == ButtonPacket.BUTTON_2:              # Check to see if the useful message says button 2 was pressed.
+                print("Button 2: Random neopixel color")
+                colors = [] 
+                for i in range(3):
+                    colors.append(random.randint(0, 255))
+                cutebot.pixels(3,colors)
+            elif packet.button == ButtonPacket.BUTTON_3:              # Check to see if the useful message says button 3 was pressed.
+                print("----------------------------------")
                 print("Button 3: Cutebot Sensors")
                 print("Sonar: {:.2f}".format(cutebot.getSonar()))
                 s_left, s_right = cutebot.getTracking()
@@ -89,7 +103,8 @@ while True:
                 print("P1: {}".format(cutebot.getP1()))
                 print("P2: {}".format(cutebot.getP2()))
                 print("----------------------------------")
-            if packet.button == ButtonPacket.BUTTON_4:              # Check to see if the useful message says button 4 was pressed.
+            elif packet.button == ButtonPacket.BUTTON_4:              # Check to see if the useful message says button 4 was pressed.
+                print("----------------------------------")
                 print("Button 4: Clue Sensors")
                 print("Acceleration: {:.2f} {:.2f} {:.2f} m/s^2".format(*clue.acceleration))
                 print("Gyro: {:.2f} {:.2f} {:.2f} dps".format(*clue.gyro))
