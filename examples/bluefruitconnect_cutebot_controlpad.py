@@ -30,7 +30,7 @@ ble = BLERadio()                                            # Turn on Bluetooth
 uart_server = UARTService()                                 # Turn on UART
 advertisement = ProvideServicesAdvertisement(uart_server)   # Set up notice for other devices that Clue has a Bluetooth UART connection
 
-maxSpeed = 30
+maxSpeed = 50                                               # Set the maximum speed of the motors.
 
 clue.sea_level_pressure = 1020                              # Set sea level pressure for Clue's Altitude sensor.
 
@@ -43,8 +43,6 @@ while True:
     # Advertise when not connected.
     ble.start_advertising(advertisement)                # Tell other devices that Clue has a Bluetooth UART connection.
     while not ble.connected:                            # Check to see if another device has connected with the Clue via Bluetooth.
-        if clue.button_a:
-            break
         pass                                            # Do nothing this loop.
 
     # Connected
@@ -53,9 +51,6 @@ while True:
 
     # Loop and read packets
     while ble.connected:                                # Check to see if we are still connected.
-
-        if clue.button_a:
-            break
 
         # Keeping trying until a good packet is received
         try:
