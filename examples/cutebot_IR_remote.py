@@ -25,7 +25,7 @@ from cutebot import clue
 ######################################################
 pulsein = pulseio.PulseIn(board.D16, maxlen=120, idle_state=True)       #Set Infrared (IR) pin
 decoder = adafruit_irremote.GenericDecode()                             #Set infrared (IR) decoder to Adafruit's generic decoder
-maxSpeed = 30
+maxSpeed = 50
 
 '''
 Set each of the buttons codes to the codes for your IR remote.
