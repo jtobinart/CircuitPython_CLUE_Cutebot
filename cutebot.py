@@ -7,17 +7,14 @@
 ######################################################
 '''
 Copyright (c) 2020 James Tobin
-
 Permission is hereby granted, free of charge, to any person obtaining a copy of this
 software and associated documentation files (the "Software"), to deal in the Software
 without restriction, including without limitation the rights to use, copy, modify,
 merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
 permit persons to whom the Software is furnished to do so, subject to the following
 conditions:
-
 The above copyright notice and this permission notice shall be included in all copies
 or substantial portions of the Software.
-
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
 INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
 PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
@@ -138,6 +135,8 @@ cutebot_address = 0x10
 ######################################################
 servoMaxAngleInDegrees = 180    # maximum degrees of freedom allowed by your servo (change to match your servo)
 i2c_rest = 0.1
+error_count = 0
+error_thresh = 10
 
 ######################################################
 #   ----------------- FUNCTIONS -----------------
@@ -223,6 +222,7 @@ def headlights(whichLight, colors):
     '''
     while not clue._i2c.try_lock():
         pass
+    error_count = 0
     while True:
         try:
             data = [0,0,0,0]        #cuteBot expects four bytes of data
@@ -258,12 +258,12 @@ def headlights(whichLight, colors):
                 clue._i2c.writeto(cutebot_address, bytes(data))         # send data to cutebot
                 data[0] = 0x04      # left (0x08) or right (0x04) light
                 clue._i2c.writeto(cutebot_address, bytes(data))         # send data to cutebot
-            else:
-                print("whichLight should be a 0, 1, 2, or 3.")
             break
         except:
-            print('headlights i2c Error')
-            pass
+            error_count += 1
+            if error_count > error_thresh:
+                print('HEADLIGHTS i2c ERROR')
+                break
     clue._i2c.unlock()
     time.sleep(i2c_rest)
 
@@ -306,8 +306,6 @@ def pixels(whichLight, colors):
     elif whichLight == 3:     # SET BOTH LIGHTS 
         rainbow_pixels[0] = (r, g, b)               # set left light
         rainbow_pixels[1] = (r, g, b)               # set right light
-    else:
-        print("whichLight should be a 0, 1, 2, or 3.")
 
 def lightsOff():
     headlights(0,[0,0,0])   # turns off the headlights
@@ -329,6 +327,7 @@ def motors(leftSpeed, rightSpeed):      # set motors speeds
     '''
     while not clue._i2c.try_lock():
         pass
+    error_count = 0
     while True:
         try:
             leftSpeed = int(min(max(leftSpeed, -100),100))   # let's make sure the value is between -100 and 100
@@ -363,8 +362,10 @@ def motors(leftSpeed, rightSpeed):      # set motors speeds
                 clue._i2c.writeto(cutebot_address, bytes(data))             # send data to cutebot
             break
         except:
-            print('Motor i2c ERROR')
-            pass
+            error_count += 1
+            if error_count > error_thresh:
+                print('MOTOR: i2c ERROR')
+                break
     clue._i2c.unlock()
     time.sleep(i2c_rest)
 
@@ -389,6 +390,7 @@ def servos(whichServo, angleInDegrees):     # set servos angles
     '''
     while not clue._i2c.try_lock():
         pass
+    error_count = 0
     while True:
         try:
             data = [0,0,0,0]        # cutebot expects four bytes and the last two are always zero when sending servo data
@@ -401,7 +403,7 @@ def servos(whichServo, angleInDegrees):     # set servos angles
                 data[0] = 0x06              # S1 Servo (0x05) and S2 Servo (0x06)
                 data[1] = angleInDegrees    # servo new angle
                 clue._i2c.writeto(cutebot_address, bytes(data))                     # send data to cutebot
-            else:                           # SET SERVO S1 & S2
+            elif whichServo == 3:           # SET SERVO S1 & S2
                 data[0] = 0x05              # S1 Servo (0x05) and S2 Servo (0x06)
                 data[1] = angleInDegrees    # servo new angle
                 clue._i2c.writeto(cutebot_address, bytes(data))                     # send data to cutebot
@@ -409,8 +411,10 @@ def servos(whichServo, angleInDegrees):     # set servos angles
                 clue._i2c.writeto(cutebot_address, bytes(data))                     # send data to cutebot
             break
         except:
-            print('Servo i2c ERROR')
-            pass
+            error_count += 1
+            if error_count > error_thresh:
+                print('SERVO: i2c ERROR')
+                break
     clue._i2c.unlock()
     time.sleep(i2c_rest)
 
@@ -455,9 +459,7 @@ def getTracking():
     '''
     return not leftLineTracking.value, not rightLineTracking.value
 
-try:
-    motorsOff()
-    lightsOff()
-except:
-    print("ERROR: CHECK CUTEBOT CONNECTION")
+motorsOff()
+lightsOff()
+
 #print('======== Cutebot Loaded ========')
