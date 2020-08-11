@@ -1,5 +1,5 @@
 # CircuitPython Clue Cutebot
-# Last Updated Aug 11, 2020
+# Last Updated Aug 11, 2020 v1.1
 # Author(s): James Tobin
 
 ######################################################
