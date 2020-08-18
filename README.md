@@ -1,7 +1,7 @@
 # CircuitPython-CLUE-Cutebot
 [![CircuitPython_CLUE_Cutebot YouTube Video](https://github.com/jisforjt/CircuitPython_CLUE_Cutebot/blob/master/docs/images/Cutebot_YouTube_Still.png)](https://youtu.be/jVEu-UyjuIc)
 
-This is a higher-level library to allow Adafruit's [CLUE](https://www.adafruit.com/product/4500) and ElecFreak's micro:bit Smart [Cutebot](https://www.elecfreaks.com/micro-bit-smart-cutebot.html) to communicate while maintaining all the functionality of the CLUE, except for touch features. I am a teacher of young learns and as such the code was purposefully left simple so I can use it with them. There is also a comment on nearly every line to help explain to my students what each line is doing.
+This is a higher-level library to allow Adafruit's [CLUE](https://www.adafruit.com/product/4500) and ElecFreak's micro:bit Smart [Cutebot](https://www.elecfreaks.com/micro-bit-smart-cutebot.html) to communicate while maintaining all the functionality of the CLUE, except for touch features. I am a teacher of young learners and as such the code was purposefully left simple so I can use it with them. There is also a comment on nearly every line to help explain to my students what each line is doing.
 
 ## Dependencies
 This library depends on:
