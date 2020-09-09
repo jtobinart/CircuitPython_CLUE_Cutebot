@@ -5,7 +5,7 @@ This is a higher-level library to allow Adafruit's [CLUE](https://www.adafruit.c
 
 ## Dependencies
 This library depends on:
-* [Adafruit CircuitPython](https://github.com/adafruit/circuitpython) v. 5.3.1
+* [Adafruit CircuitPython](https://github.com/adafruit/circuitpython) v.5.3.1
 * [Adafruit_hcsr04](https://github.com/adafruit/Adafruit_CircuitPython_HCSR04)
 
 The IR remote example also depends on:
