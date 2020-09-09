@@ -1,6 +1,6 @@
 # cutebot_IR_remote.py
-# Version: 1.0
-# Author(s) James Tobin
+# Version: 2.0
+# Author(s): James Tobin
 
 ######################################################
 #   Version Notes
@@ -16,45 +16,44 @@ to find the codes for each button. You can add as many as you like. There are s
 import board
 import pulseio
 import adafruit_irremote
-import cutebot
-from cutebot import clue
+from jisforjt_cutebot_clue import cutebot, clue
 
 
 ######################################################
-#   Variables
+#   Global Variables
 ######################################################
 pulsein = pulseio.PulseIn(board.D16, maxlen=120, idle_state=True)       #Set Infrared (IR) pin
 decoder = adafruit_irremote.GenericDecode()                             #Set infrared (IR) decoder to Adafruit's generic decoder
-maxSpeed = 50
+maxSpeed = 30
 
 '''
 Set each of the buttons codes to the codes for your IR remote.
 To find codes, run the program with all the buttons set to None.
 Afterwards, press each button and write down its code that you see on the Cluebot below.
-
-Example:
-    button_UP = [120, 85]
-    button_DOWN = [127, 21]
-    button_LEFT = [122, 65]
-    button_RIGHT = [124, 65]
-    button_STOP = [120, 65]
-    button_1 = [127, 109]
 '''
+#Example:
+button_UP = [120, 85]
+button_DOWN = [127, 21]
+button_LEFT = [122, 65]
+button_RIGHT = [124, 65]
+button_STOP = [120, 65]
+button_1 = [127, 109]
 
+'''
 button_UP = [None]                       # Set the up button code
 button_DOWN = [None]                     # Set the down button code
 button_LEFT = [None]                     # Set the left button code
 button_RIGHT = [None]                    # Set the right button code
 button_STOP = [None]                     # Set the stop button code
 button_1 = [None]                        # Set the button 1 code
-
+'''
 
 ######################################################
 #   Main Code
 ######################################################
 print("Waiting for remote signal...")
 while True:
-    code = None     # Set the variable to an initial value so it does not cause an error
+    code = None
 
     #This first part if from the adafruit_irremote example.
     pulses = decoder.read_pulses(pulsein)                   # Stop, wait and listen for an IR signal.
@@ -62,9 +61,9 @@ while True:
     try:
         code = decoder.decode_bits(pulses)                  # Read the IR signal code
         #print("Decoded:", code)
-    except adafruit_irremote.IRNECRepeatException:          # Incomplete message
+    except adafruit_irremote.IRNECRepeatException:          # unusual short code!
         print("NEC repeat!")
-    except adafruit_irremote.IRDecodeException as e:        # Failed to decode message
+    except adafruit_irremote.IRDecodeException as e:        # failed to decode
         print("Failed to decode: ", e.args)
     
 
@@ -95,5 +94,3 @@ while True:
         clue.play_tone(1568, 1)
     else:                                       # It does not match!
         print("I don't know: ", code)
-
-print("========== End ==========")
