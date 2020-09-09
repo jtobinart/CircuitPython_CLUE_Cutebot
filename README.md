@@ -16,8 +16,7 @@ The Adafruit BlueFruit Connect App's Controller example also depends on:
 * [Adafruit_bluefruit_connect](https://github.com/adafruit/Adafruit_CircuitPython_BluefruitConnect)
 
 ## Instalations
-Follow Adafruit's [CLUE Overview](https://learn.adafruit.com/adafruit-clue) instructions under _CircuitPython on CLUE_. During the installation process, you will download the latest _library bundle_ and transfer several libraries to the CLUE. Transfer the dependencies listed above to your _lib folder_.
-Download this repository and copy _jisforjt_cutebot_clue.mpy_ on to your CIRCUITPY drive. The _.mpy_ version of the files uses a fraction of the memory and is the reccommended version.
+Follow Adafruit's [CLUE Overview](https://learn.adafruit.com/adafruit-clue) instructions under _CircuitPython on CLUE_. During the installation process, you will download the latest _library bundle_ and transfer several libraries to the CLUE. Transfer the dependencies listed above to your _lib folder_. Download this repository and copy _jisforjt_cutebot_clue.mpy_ on to your CIRCUITPY drive. The _.mpy_ version of the files uses a fraction of the memory and is the recommended format.
 
 ## Usage
 You can create a new main.py file and use:
