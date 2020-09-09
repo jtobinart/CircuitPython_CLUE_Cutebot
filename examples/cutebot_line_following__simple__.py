@@ -1,5 +1,6 @@
 #Cutebot_Line_Following.py
-#Version 1.0
+#Date: Sep. 8, 2020
+#Version: 2.0
 #Author(s): James Tobin
 
 
@@ -15,8 +16,7 @@ in the Cutebot's Instruction Manual.
 ######################################################
 #   Imports
 ######################################################
-import cutebot
-from cutebot import clue
+from jisforjt_cutebot_clue import cutebot, clue
 
 
 ######################################################
@@ -30,7 +30,7 @@ speed = 20               # Set the speed of the robot
 ######################################################
 while True:
 
-    leftSide, rightSide = cutebot.getTracking()     # Ask Cutebot if it sees the line. (True = I see black; False = I don't see black.) 
+    leftSide, rightSide = cutebot.tracking     # Ask Cutebot if it sees the line. (True = I see black; False = I don't see black.) 
     print(leftSide, rightSide)                      # Show us what the Cutebot sees
 
     if leftSide == True and rightSide == True:      # Go forwards when both are True
@@ -44,5 +44,3 @@ while True:
         print("Left")
     else:
         print("Searching for line...")
-
-print("End")

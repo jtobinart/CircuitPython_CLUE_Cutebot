@@ -14,8 +14,7 @@ A countdown clock and a more advanced line following code was implemented in thi
 ######################################################
 #   Imports
 ######################################################
-import cutebot
-from cutebot import clue
+from jisforjt_cutebot_clue import cutebot, clue
 
 
 ######################################################
@@ -56,7 +55,7 @@ while True:
         cutebot.motorsOff()     # Stop the motors
         break                   # Stop the while loop
 
-    leftSide, rightSide = cutebot.getTracking()     # Ask Cutebot if it sees the line. (True = I see black; False = I do not see black.) 
+    leftSide, rightSide = cutebot.tracking     # Ask Cutebot if it sees the line. (True = I see black; False = I do not see black.) 
     print(leftSide, rightSide)
 
     if leftSide == True and rightSide == True:      # Go forwards when both are True
@@ -79,6 +78,4 @@ while True:
             cutebot.motors(maxSpeed,-maxSpeed)                # Set motor speed
             print("Spin Right")
     else:
-        print("***ERROR: UNKNOWN TRACKING STATE***")
-
-print("End")
+        print("ERROR: UNKNOWN TRACKING STATE")
