@@ -1,4 +1,6 @@
 # bluefruitconnect_cutebot_controlpad.py
+# Version: 2.0
+# Author(s): James Tobin
 
 # Basic structure example for using the BLE Connect Control Pad
 # To use, start this program, and start the Adafruit Bluefruit LE Connect app.

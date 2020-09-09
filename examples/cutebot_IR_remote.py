@@ -1,6 +1,6 @@
 # cutebot_IR_remote.py
-# Version: 1.0
-# Author(s) James Tobin
+# Version: 2.0
+# Author(s): James Tobin
 
 ######################################################
 #   Version Notes
