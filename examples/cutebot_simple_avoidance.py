@@ -22,8 +22,7 @@ blue = avoiding an object seen by the proximity sensor
 ######################################################
 import os
 import time
-import cutebot
-from cutebot import clue
+from jisforjt_cutebot_clue import cutebot, clue
 
 
 ######################################################
@@ -37,12 +36,12 @@ max_speed = 50
 ######################################################
 
 while True:
-	distance = cutebot.getSonar()
+	distance = cutebot.getSonar
 	prox = clue.proximity
 	if prox > 5:
 		cutebot.motors(((-max_speed)), (-max_speed / 2))
 		cutebot.pixels(3,[0,0,255])		# blue
-		time.sleep(0.25)
+		time.sleep(0.2)
 	elif distance >= 50:
 		cutebot.motors(max_speed, max_speed)
 		cutebot.pixels(3,[0,255,0])		# green

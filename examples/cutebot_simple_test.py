@@ -5,8 +5,7 @@
 #   Import
 ######################################################
 import time
-import cutebot
-from cutebot import clue
+from jisforjt_cutebot_clue import cutebot, clue
 
 
 ######################################################
@@ -20,12 +19,12 @@ clue.sea_level_pressure = 1020                              # Set sea level pres
 ######################################################
 
 def cutebot_Sensors():
-    print("Sonar: {:.2f}".format(cutebot.getSonar()))
-    s_left, s_right = cutebot.getTracking()
+    print("Sonar: {:.2f}".format(cutebot.sonar))
+    s_left, s_right = cutebot.tracking
     print("Left Line Tracking: {}".format(s_left))
     print("Right Line Tracking: {}".format(s_right))
-    print("P1: {}".format(cutebot.getP1()))
-    print("P2: {}".format(cutebot.getP2()))
+    print("P1: {}".format(cutebot.p1))
+    print("P2: {}".format(cutebot.p2))
     print("----------------------------------")
 
 def clue_Sensors():
@@ -45,12 +44,17 @@ def clue_Sensors():
 ######################################################
 #   Main Code
 ######################################################
+
 while True:
-    Print("Uncomment the sensor function you want to test.")
-       
-    #cutebot_Sensors()
+    """
+    Uncomment the sensor function you want to test below.
+    """
+
+    cutebot_Sensors()
     #clue_Sensors()
     
-    #time.sleep(0.1)    # Uncomment and change the number of seconds you want to have to read the sensor data.
-
+    time.sleep(2) # Wait for two seconds
+    
+    if clue.button_a:
+        break
 print("========== End ==========")

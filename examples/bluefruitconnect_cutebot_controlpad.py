@@ -1,10 +1,8 @@
 # bluefruitconnect_cutebot_controlpad.py
 
-
 # Basic structure example for using the BLE Connect Control Pad
 # To use, start this program, and start the Adafruit Bluefruit LE Connect app.
 # Connect, and then select Controller-> Control Pad.
-
 
 ######################################################
 #   Import
@@ -13,8 +11,8 @@ from adafruit_ble import BLERadio
 from adafruit_ble.advertising.standard import ProvideServicesAdvertisement
 from adafruit_ble.services.nordic import UARTService
 from adafruit_bluefruit_connect.packet import Packet
-import cutebot
-from cutebot import clue
+from jisforjt_cutebot_clue import cutebot, clue
+
 
 # Used to create random neopixel colors
 import random
@@ -30,7 +28,7 @@ ble = BLERadio()                                            # Turn on Bluetooth
 uart_server = UARTService()                                 # Turn on UART
 advertisement = ProvideServicesAdvertisement(uart_server)   # Set up notice for other devices that Clue has a Bluetooth UART connection
 
-maxSpeed = 50                                               # Set the maximum speed of the motors.
+maxSpeed = 35
 
 clue.sea_level_pressure = 1020                              # Set sea level pressure for Clue's Altitude sensor.
 
@@ -43,6 +41,8 @@ while True:
     # Advertise when not connected.
     ble.start_advertising(advertisement)                # Tell other devices that Clue has a Bluetooth UART connection.
     while not ble.connected:                            # Check to see if another device has connected with the Clue via Bluetooth.
+        if clue.button_a:
+            break
         pass                                            # Do nothing this loop.
 
     # Connected
@@ -51,6 +51,9 @@ while True:
 
     # Loop and read packets
     while ble.connected:                                # Check to see if we are still connected.
+
+        if clue.button_a:
+            break
 
         # Keeping trying until a good packet is received
         try:
@@ -79,7 +82,7 @@ while True:
                 cutebot.headlights(1,[0,0,0])
                 cutebot.headlights(2,[200,100,0])
             elif packet.button == ButtonPacket.BUTTON_1:              # Check to see if the useful message says button 1 was pressed.
-                print("Button 1: Full stop!")
+                print("Button 1: Stop and lights off")
                 cutebot.motorsOff()
                 cutebot.lightsOff()
             elif packet.button == ButtonPacket.BUTTON_2:              # Check to see if the useful message says button 2 was pressed.
@@ -91,12 +94,12 @@ while True:
             elif packet.button == ButtonPacket.BUTTON_3:              # Check to see if the useful message says button 3 was pressed.
                 print("----------------------------------")
                 print("Button 3: Cutebot Sensors")
-                print("Sonar: {:.2f}".format(cutebot.getSonar()))
-                s_left, s_right = cutebot.getTracking()
+                print("Sonar: {:.2f}".format(cutebot.sonar))
+                s_left, s_right = cutebot.tracking
                 print("Left Line Tracking: {}".format(s_left))
                 print("Right Line Tracking: {}".format(s_right))
-                print("P1: {}".format(cutebot.getP1()))
-                print("P2: {}".format(cutebot.getP2()))
+                print("P1: {}".format(cutebot.p1))
+                print("P2: {}".format(cutebot.p2))
                 print("----------------------------------")
             elif packet.button == ButtonPacket.BUTTON_4:              # Check to see if the useful message says button 4 was pressed.
                 print("----------------------------------")
