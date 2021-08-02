@@ -1,4 +1,4 @@
-# CircuitPython-CLUE-Cutebot
+# CircuitPython_CLUE_Cutebot
 [![CircuitPython_CLUE_Cutebot YouTube Video](https://github.com/jisforjt/CircuitPython_CLUE_Cutebot/blob/master/docs/images/Cutebot_YouTube_Still.png)](https://youtu.be/jVEu-UyjuIc)
 
 This is a higher-level library to allow Adafruit's [CLUE](https://www.adafruit.com/product/4500) and ElecFreak's micro:bit Smart [Cutebot](https://www.elecfreaks.com/micro-bit-smart-cutebot.html) to communicate while maintaining all the functionality of the CLUE, except for touch features. In version 2, the code has been updated for efficency purposes and educational focus has shifted towards examples and wiki.
