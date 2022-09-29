@@ -1,23 +1,65 @@
 # cutebot_simple_test.py
-#Version: 2.0
+# Date: Sep. 27, 2022
+# Version: 3.0
 # Author: James Tobin
+
+######################################################
+#   HOW TO USE
+######################################################
+'''
+Scroll down to the "Main Loop" section and uncomment the 
+sensor function you want to run. There are two functions.
+One shows you the Cutebot's sensor data and the second 
+shows you the Clue's sensor data. 
+
+TO UNCOMMENT: 
+Delete the "#" that preceeds the function statment. 
+
+'''
+
+######################################################
+#   Version Notes
+######################################################
+'''
+v3.0
+ - Added HOW TO USE section
+ - Added Version Notes section
+ - Added buttonPress() function
+ - Compatible with CircuitPython v7.x
+
+v2.0
+ - Added comments.
+ - Compatible with CircuitPython v5.x
+
+
+'''
 
 ######################################################
 #   Import
 ######################################################
 import time
-from jisforjt_cutebot_clue import cutebot, clue
+from jisforjt_cutebot_clue import cutebot
+from adafruit_clue import clue
 
 
 ######################################################
 #   Variables
 ######################################################
-clue.sea_level_pressure = 1020                              # Set sea level pressure for Clue's Altitude sensor.
+clue.sea_level_pressure = 1020                         # Set sea level pressure for Clue's Altitude sensor.
 
 
 ######################################################
 #   Functions
 ######################################################
+def buttonPress():
+    '''
+    Why sperate this part out. Well it appears that CircuitPython runs soother
+    when button presses are checked in a function. No more issues since doing 
+    this. This was reccomended by another Adafruit users, username unknown.
+    '''
+    if clue.button_a:
+        return True
+    return False
 
 def cutebot_Sensors():
     print("Sonar: {:.2f}".format(cutebot.sonar))
@@ -43,16 +85,16 @@ def clue_Sensors():
 
 
 ######################################################
-#   Main Code
+#   Main Loop
 ######################################################
-
 while True:
     """
-    Uncomment the sensor function you want to test below.
+    SENSORS ==========================================
     """
-
     cutebot_Sensors()
     #clue_Sensors()
+
+    #=================================================
     
     time.sleep(2) # Wait for two seconds
     

@@ -1,25 +1,54 @@
-#Cutebot_line_following__better__.py
-#Version 1.0
-#Author(s): James Tobin
+# Cutebot_line_following__better__.py
+# Date: Sep. 27, 2022
+# Version 3.0
+# Author(s): James Tobin
 
+######################################################
+#   HOW TO USE:
+######################################################
+'''
+Draw a black line on a white surface. Place the Cutebot over
+the line and watch it follow it.
+
+'''
 
 ######################################################
 #   Version Notes
 ######################################################
 '''
-A countdown clock and a more advanced line following code was implemented in this version.
-'''
+v3.0
+ - Updated STOP button (Button A).
+    - Put inside function.
+    - Turns off lights too.
+ - Comments edited to make them easier to read.
+ - Added HOW TO USE section.
+ - Compatible with CircuitPython v7.x
 
+v2.0
+ - A countdown clock and a more advanced line following code was implemented in this version.
+ - Compatible with CircuitPython v5.x
+'''
 
 ######################################################
 #   Imports
 ######################################################
-from jisforjt_cutebot_clue import cutebot, clue
+from jisforjt_cutebot_clue import cutebot
+from adafruit_clue import clue
 
 
 ######################################################
 #   Functions
 ######################################################
+def buttonPress():
+	'''
+	Why sperate this part out. Well it appears that CircuitPython runs soother
+	when button presses are checked in a function. No more issues since doing 
+	this. This was reccomended by another Adafruit users, username unknown.
+	'''
+	if clue.button_a:
+		return True
+	return False
+
 def countdown(duration):
     duration = max(duration, 1.5)       # Make sure the time is at least 1.5 seconds long
     duration/=6                         # Divide the time equally. There are 6 because the last note plays twice as long
@@ -45,37 +74,40 @@ maxSpeed = 20                  # Set the speed of the robot
 ######################################################
 #   Main Code
 ######################################################
-print("\nPress the B button to stop the program. This program will start in...")
+print("\nPress the Button A to STOP the Cutebot. This program will start in...")
 countdown(3)
 print("Looking for line!")
 
+
+######################################################
+#   Main Loop
+######################################################
 while True:
-    if clue.button_b:       # Ask clue if the B button was pressed.
-        # If it was pressed do these things
-        cutebot.motorsOff()     # Stop the motors
-        break                   # Stop the while loop
+    if buttonPress():						   # Check if Button A is pressed.
+		cutebot.motorsOff()
+		cutebot.lightsOff()
+		break
 
     leftSide, rightSide = cutebot.tracking     # Ask Cutebot if it sees the line. (True = I see black; False = I do not see black.) 
     print(leftSide, rightSide)
 
-    if leftSide == True and rightSide == True:      # Go forwards when both are True
-        cutebot.motors(maxSpeed,maxSpeed)                     # Set motor speed
+    if leftSide == True and rightSide == True:      # Go forwards when both sensors see the line (both are True)
+        cutebot.motors(maxSpeed,maxSpeed)           # Set motor speed
         print("Forward")
-    elif leftSide == False and rightSide == True:   # Go right if rightSide is True
-        cutebot.motors(maxSpeed,0)                         # Set motor speed
-        last_turn_was_left = False                      # Remember that we did not turn left
+    elif leftSide == False and rightSide == True:   # Go right when left side sensor cannot see the line.
+        cutebot.motors(maxSpeed,0)                  # Set motor speed
+        last_turn_was_left = False                  # Remember that we did not turn left
         print("Right")
-    elif leftSide == True and rightSide == False:   # Go left if leftSide is True
-        cutebot.motors(0,maxSpeed)                         # Set motor speed
-        last_turn_was_left = True                       # Remember that we turned left
+    elif leftSide == True and rightSide == False:   # Go left when the right side sensor cannot see the line.
+        cutebot.motors(0,maxSpeed)                  # Set motor speed
+        last_turn_was_left = True                   # Remember that we turned left
         print("Left")
-    elif leftSide == False and rightSide == False:  # Spin back if both are False
-        # If you Cutebot is lost, it will spin in the direction it last saw the color black.
-        if last_turn_was_left == True:              # Did Cutebot last turn left?
-            cutebot.motors(-maxSpeed,maxSpeed)                # Set motor speed
+    elif leftSide == False and rightSide == False:  # Line lost. Spin in the same direction we last saw the line.
+        if last_turn_was_left == True:              # Cutebot last turned left.
+            cutebot.motors(-maxSpeed,maxSpeed)      # Set motor speed
             print("Spin Left")
-        else:                                       # If Cutebot didn't last turn left then go right.
-            cutebot.motors(maxSpeed,-maxSpeed)                # Set motor speed
+        else:                                       # Cutebot last turned right.
+            cutebot.motors(maxSpeed,-maxSpeed)      # Set motor speed
             print("Spin Right")
     else:
         print("ERROR: UNKNOWN TRACKING STATE")

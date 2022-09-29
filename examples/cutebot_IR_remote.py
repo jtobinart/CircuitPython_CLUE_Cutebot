@@ -1,13 +1,41 @@
 # cutebot_IR_remote.py
-# Version: 2.0
+# Date: Sep. 27, 2022
+# Version: 3.0
 # Author(s): James Tobin
 
 ######################################################
-#   Version Notes
+#   HOW TO USE:
 ######################################################
 '''
-Use any IR remote you have lying around. I used a TV remote. Follow the directions below
-to find the codes for each button. You can add as many as you like. There are s
+Use any IR remote you have lying around. I used a TV remote. I only use six buttons
+but you can set up as many as you like.
+
+To set up your IR remote buttons, simply aim your buttons at your Cutebot. For best 
+results aim at the back. Press each button and write down the codes you see on the
+Clue's display. 
+
+Pro-Tip: Press each button a few times to make sure it wasn't miss decoded.
+
+Afterwards, change the button directions and button_1 below, by default they are = to (None).
+
+Now when you press a button Cutebot will follow your every command... eventually.
+
+'''
+
+######################################################
+#   Version Notes:
+######################################################
+'''
+v3.0 
+ - Compatible with CircuitPython v7.x
+ - Added HOW TO USE section.
+ - Simplified code.
+ - Comments edited to make them easier to read.
+
+v2.0
+ - Added comments.
+ - Updated code.
+ - Compatible with CircuitPython v5.x
 '''
 
 ######################################################
@@ -16,7 +44,8 @@ to find the codes for each button. You can add as many as you like. There are s
 import board
 import pulseio
 import adafruit_irremote
-from jisforjt_cutebot_clue import cutebot, clue
+from jisforjt_cutebot_clue import cutebot
+from adafruit_clue import clue
 
 
 ######################################################
@@ -26,26 +55,21 @@ pulsein = pulseio.PulseIn(board.D16, maxlen=120, idle_state=True)       #Set Inf
 decoder = adafruit_irremote.GenericDecode()                             #Set infrared (IR) decoder to Adafruit's generic decoder
 maxSpeed = 30
 
-'''
-Set each of the buttons codes to the codes for your IR remote.
-To find codes, run the program with all the buttons set to None.
-Afterwards, press each button and write down its code that you see on the Cluebot below.
-'''
 #Example:
-button_UP = [120, 85]
-button_DOWN = [127, 21]
-button_LEFT = [122, 65]
-button_RIGHT = [124, 65]
-button_STOP = [120, 65]
-button_1 = [127, 109]
+button_UP =    (255, 8,  79, 176)
+button_DOWN =  (255, 8,  87, 168)
+button_LEFT =  (255, 8, 247,   8)
+button_RIGHT = (255, 8, 183,  72)
+button_STOP =  (255, 8, 191,  64)
+button_1 =     (255, 8,  63, 192)
 
 '''
-button_UP = [None]                       # Set the up button code
-button_DOWN = [None]                     # Set the down button code
-button_LEFT = [None]                     # Set the left button code
-button_RIGHT = [None]                    # Set the right button code
-button_STOP = [None]                     # Set the stop button code
-button_1 = [None]                        # Set the button 1 code
+button_UP = (None)                       # Set the up button code
+button_DOWN = (None)                     # Set the down button code
+button_LEFT = (None)                     # Set the left button code
+button_RIGHT = (None)                    # Set the right button code
+button_STOP = (None)                     # Set the stop button code
+button_1 = (None)                        # Set the button 1 code
 '''
 
 ######################################################
@@ -55,17 +79,12 @@ print("Waiting for remote signal...")
 while True:
     code = None
 
-    #This first part if from the adafruit_irremote example.
     pulses = decoder.read_pulses(pulsein)                   # Stop, wait and listen for an IR signal.
-    #print("Heard", len(pulses), "Pulses:", pulses)
+
     try:
-        code = decoder.decode_bits(pulses)                  # Read the IR signal code
-        #print("Decoded:", code)
-    except adafruit_irremote.IRNECRepeatException:          # unusual short code!
-        print("NEC repeat!")
-    except adafruit_irremote.IRDecodeException as e:        # failed to decode
-        print("Failed to decode: ", e.args)
-    
+        code = decoder.decode_bits(pulses)                  # Try to decode pulses.
+    except:
+        pass                                                # Failed to decode pulses.
 
     if code == button_UP:                       # Check to see if our code matches.
         print("Button UP")
@@ -93,4 +112,5 @@ while True:
         print("Button 1")
         clue.play_tone(1568, 1)
     else:                                       # It does not match!
-        print("I don't know: ", code)
+        if code != (None):
+            print("I don't know: ", code)
