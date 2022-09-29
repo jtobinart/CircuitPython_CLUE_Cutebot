@@ -56,21 +56,22 @@ decoder = adafruit_irremote.GenericDecode()                             #Set inf
 maxSpeed = 30
 
 #Example:
+'''
 button_UP =    (255, 8,  79, 176)
 button_DOWN =  (255, 8,  87, 168)
 button_LEFT =  (255, 8, 247,   8)
 button_RIGHT = (255, 8, 183,  72)
 button_STOP =  (255, 8, 191,  64)
 button_1 =     (255, 8,  63, 192)
-
 '''
+
 button_UP = (None)                       # Set the up button code
 button_DOWN = (None)                     # Set the down button code
 button_LEFT = (None)                     # Set the left button code
 button_RIGHT = (None)                    # Set the right button code
 button_STOP = (None)                     # Set the stop button code
 button_1 = (None)                        # Set the button 1 code
-'''
+
 
 ######################################################
 #   Main Code
