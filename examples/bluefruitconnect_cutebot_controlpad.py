@@ -1,10 +1,36 @@
 # bluefruitconnect_cutebot_controlpad.py
-# Version: 2.0
+# Date: Sep. 27, 2022
+# Version: 3.0
 # Author(s): James Tobin
 
-# Basic structure example for using the BLE Connect Control Pad
-# To use, start this program, and start the Adafruit Bluefruit LE Connect app.
-# Connect, and then select Controller-> Control Pad.
+######################################################
+#   HOW TO USE
+######################################################
+'''
+Run this program on your clue. 
+
+On your mobile device, open the Adafruit Bluefruit LE Connect app. 
+Top the Connect button. Your clue's name should start with CIRUITPY. 
+Tap the Controller button and then tap Control Pad.
+
+Enjoy!
+'''
+
+######################################################
+#   Version Notes
+######################################################
+'''
+v3.0
+ - buttonPress() function added.
+ - Comments edited to make the code more readable.
+ - Added HOW TO USE section.
+ - Compatible with CircuitPython v7.x
+
+v2.0
+ - Reconfigured buttons.
+ - Added comments.
+ - Compatible with CircuitPython v5.x
+'''
 
 ######################################################
 #   Import
@@ -13,7 +39,8 @@ from adafruit_ble import BLERadio
 from adafruit_ble.advertising.standard import ProvideServicesAdvertisement
 from adafruit_ble.services.nordic import UARTService
 from adafruit_bluefruit_connect.packet import Packet
-from jisforjt_cutebot_clue import cutebot, clue
+from jisforjt_cutebot_clue import cutebot
+from adafruit_clue import clue
 
 
 # Used to create random neopixel colors
@@ -21,6 +48,20 @@ import random
 
 # Only the packet classes that are imported will be known to Packet.
 from adafruit_bluefruit_connect.button_packet import ButtonPacket
+
+
+######################################################
+#   Functions
+######################################################
+def buttonPress():
+    '''
+    Why sperate this part out. Well it appears that CircuitPython runs soother
+    when button presses are checked in a function. No more issues since doing 
+    this. This was reccomended by another Adafruit users, username unknown.
+    '''
+    if clue.button_a:
+        return True
+    return False
 
 
 ######################################################
@@ -34,8 +75,9 @@ maxSpeed = 35
 
 clue.sea_level_pressure = 1020                              # Set sea level pressure for Clue's Altitude sensor.
 
+
 ######################################################
-#   Main Code
+#   Main Loop
 ######################################################
 while True:
     print("WAITING for BlueFruit device...")
@@ -43,7 +85,8 @@ while True:
     # Advertise when not connected.
     ble.start_advertising(advertisement)                # Tell other devices that Clue has a Bluetooth UART connection.
     while not ble.connected:                            # Check to see if another device has connected with the Clue via Bluetooth.
-        if clue.button_a:
+        if buttonPress():
+            time.sleep(0.2)
             break
         pass                                            # Do nothing this loop.
 
@@ -54,7 +97,8 @@ while True:
     # Loop and read packets
     while ble.connected:                                # Check to see if we are still connected.
 
-        if clue.button_a:
+        if buttonPress():
+            time.sleep(0.2)
             break
 
         # Keeping trying until a good packet is received
